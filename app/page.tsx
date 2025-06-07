@@ -240,8 +240,8 @@ const faqs = [
 
 const testimonials = [
   {
-    name: "Sarah Wanjiku",
-    role: "Director, Hisia Youth Organization",
+    name: "Salma Ali Abdallah",
+    role: "Program Manager, Hisia Youth Organization",
     company: "Hisia Youth Organization",
     image: "/images/testimonial-sarah.png",
     content:
@@ -250,8 +250,8 @@ const testimonials = [
     gradient: "from-red-500 to-pink-500",
   },
   {
-    name: "James Baraka",
-    role: "CEO, Baraka Mining & Minerals Ltd",
+    name: "Liz",
+    role: "Customer Service Manager, Baraka Mining & Minerals Ltd",
     company: "Baraka Mining & Minerals",
     image: "/images/testimonial-james.png",
     content:
@@ -260,48 +260,52 @@ const testimonials = [
     gradient: "from-green-500 to-emerald-500",
   },
   {
-    name: "Mordecai Kiprotich",
-    role: "Full-Stack Developer",
+    name: "Mordecai Junior",
+    role: "FrontEnd Developer",
     company: "Freelance Developer",
     image: "/images/testimonial-mordecai.png",
     content:
-      "Working with EdgeAnimate Tech on my portfolio website was an amazing experience. They understood my vision as a developer and created a site that perfectly showcases my skills. The attention to detail and modern design approach is outstanding!",
+      "Working with EdgeAnimate Tech on my portfolio website was an amazing experience. The attention to detail and modern design approach is outstanding!",
     rating: 5,
     gradient: "from-blue-500 to-cyan-500",
   },
   {
-    name: "David Mukasa",
-    role: "Operations Manager, Texol Energies",
-    company: "Texol Energies Uganda",
+    name: "Anonymous User",
+    role: "Unknown",
+    company: "Energy Company",
     image: "/images/testimonial-david.png",
     content:
       "EdgeAnimate Tech delivered beyond our expectations! Our energy company website now stands out in the industry with its professional design and smooth functionality. The team's expertise in web development is truly remarkable.",
     rating: 5,
     gradient: "from-orange-500 to-red-500",
   },
-  {
-    name: "Grace Njeri",
-    role: "Marketing Director",
-    company: "Nairobi Tech Solutions",
-    image: "/images/testimonial-grace.png",
-    content:
-      "I've worked with many web agencies, but EdgeAnimate Tech is in a league of their own. Their combination of creativity, technical expertise, and customer service is unmatched. They don't just build websites - they create digital experiences!",
-    rating: 5,
-    gradient: "from-purple-500 to-pink-500",
-  },
 ]
 
 const FloatingElements = () => {
+  const [positions, setPositions] = useState<{ x: number; y: number; scale: number }[]>([])
+  useEffect(() => {
+    // Only run on client
+    const width = window.innerWidth
+    const height = window.innerHeight
+    setPositions(
+      Array.from({ length: 15 }).map(() => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        scale: Math.random() * 0.5 + 0.5,
+      }))
+    )
+  }, [])
+  if (positions.length === 0) return null
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(15)].map((_, i) => (
+      {positions.map((pos, i) => (
         <motion.div
           key={i}
           className="absolute"
           initial={{
-            x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
-            y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
-            scale: Math.random() * 0.5 + 0.5,
+            x: pos.x,
+            y: pos.y,
+            scale: pos.scale,
           }}
           animate={{
             x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),

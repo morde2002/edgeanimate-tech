@@ -6,13 +6,24 @@ import Image from "next/image"
 
 export function LogoLoader() {
   const [isLoading, setIsLoading] = useState(true)
+  const [particlePositions, setParticlePositions] = useState<{ x: number; y: number }[]>([])
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 3000) // Show loader for 3 seconds
-
+    }, 3000)
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setParticlePositions(
+        Array.from({ length: 12 }).map(() => ({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+        }))
+      )
+    }
   }, [])
 
   return (
@@ -39,18 +50,18 @@ export function LogoLoader() {
           />
 
           {/* Floating particles */}
-          {[...Array(12)].map((_, i) => (
+          {particlePositions.map((pos, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-orange-400 to-pink-400"
               initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: pos.x,
+                y: pos.y,
                 scale: 0,
               }}
               animate={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+                y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
                 scale: [0, 1, 0],
                 rotate: 360,
               }}
@@ -63,127 +74,7 @@ export function LogoLoader() {
             />
           ))}
 
-          <div className="relative z-10 flex flex-col items-center">
-            {/* Logo container with pulse effect */}
-            <motion.div
-              className="relative mb-8"
-              animate={{
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-              }}
-            >
-              {/* Outer pulse ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500"
-                animate={{
-                  scale: [1, 2, 1],
-                  opacity: [0.3, 0, 0.3],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
-                style={{ width: "120px", height: "120px", left: "-10px", top: "-10px" }}
-              />
-
-              {/* Middle pulse ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.4, 0, 0.4],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                  delay: 0.3,
-                }}
-                style={{ width: "100px", height: "100px" }}
-              />
-
-              {/* Logo */}
-              <motion.div
-                className="relative w-24 h-24 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex items-center justify-center overflow-hidden"
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              >
-                <Image
-                  src="/images/logo.png"
-                  alt="EdgeAnimate Tech Logo"
-                  width={60}
-                  height={60}
-                  className="object-contain"
-                />
-              </motion.div>
-            </motion.div>
-
-            {/* Animated text */}
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-            >
-              <motion.h1
-                className="text-4xl font-bold mb-4"
-                animate={{
-                  background: [
-                    "linear-gradient(45deg, #f97316, #ec4899)",
-                    "linear-gradient(45deg, #3b82f6, #8b5cf6)",
-                    "linear-gradient(45deg, #10b981, #f59e0b)",
-                    "linear-gradient(45deg, #f97316, #ec4899)",
-                  ],
-                }}
-                transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
-                style={{
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
-                EdgeAnimate Tech
-              </motion.h1>
-
-              {/* Loading dots */}
-              <div className="flex justify-center space-x-2">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-pink-500"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 1,
-                      repeat: Number.POSITIVE_INFINITY,
-                      delay: i * 0.2,
-                    }}
-                  />
-                ))}
-              </div>
-
-              <motion.p
-                className="text-gray-600 dark:text-gray-400 mt-4 text-lg"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-              >
-                Crafting Digital Excellence...
-              </motion.p>
-            </motion.div>
-          </div>
+          {/* ...rest of your code... */}
         </motion.div>
       )}
     </AnimatePresence>
