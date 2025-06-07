@@ -40,8 +40,6 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import { submitContactForm } from "./actions"
-import { LogoLoader } from "@/components/logo-loader"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 const services = [
   {
@@ -238,74 +236,17 @@ const faqs = [
   },
 ]
 
-const testimonials = [
-  {
-    name: "Salma Ali Abdallah",
-    role: "Program Manager, Hisia Youth Organization",
-    company: "Hisia Youth Organization",
-    image: "/images/testimonial-sarah.png",
-    content:
-      "EdgeAnimate Tech transformed our vision into reality! The website they created for Hisia Youth Organization perfectly captures our mission of youth empowerment. The animations and user experience are exceptional, and we've seen a 300% increase in online engagement since launch.",
-    rating: 5,
-    gradient: "from-red-500 to-pink-500",
-  },
-  {
-    name: "Liz",
-    role: "Customer Service Manager, Baraka Mining & Minerals Ltd",
-    company: "Baraka Mining & Minerals",
-    image: "/images/testimonial-james.png",
-    content:
-      "Professional, reliable, and innovative! EdgeAnimate Tech delivered a corporate website that truly represents our mining expertise. The clean design and smooth animations have impressed our international clients and helped us secure new partnerships.",
-    rating: 5,
-    gradient: "from-green-500 to-emerald-500",
-  },
-  {
-    name: "Mordecai Junior",
-    role: "FrontEnd Developer",
-    company: "Freelance Developer",
-    image: "/images/testimonial-mordecai.png",
-    content:
-      "Working with EdgeAnimate Tech on my portfolio website was an amazing experience. The attention to detail and modern design approach is outstanding!",
-    rating: 5,
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    name: "Anonymous User",
-    role: "Unknown",
-    company: "Energy Company",
-    image: "/images/testimonial-david.png",
-    content:
-      "EdgeAnimate Tech delivered beyond our expectations! Our energy company website now stands out in the industry with its professional design and smooth functionality. The team's expertise in web development is truly remarkable.",
-    rating: 5,
-    gradient: "from-orange-500 to-red-500",
-  },
-]
-
 const FloatingElements = () => {
-  const [positions, setPositions] = useState<{ x: number; y: number; scale: number }[]>([])
-  useEffect(() => {
-    // Only run on client
-    const width = window.innerWidth
-    const height = window.innerHeight
-    setPositions(
-      Array.from({ length: 15 }).map(() => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        scale: Math.random() * 0.5 + 0.5,
-      }))
-    )
-  }, [])
-  if (positions.length === 0) return null
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {positions.map((pos, i) => (
+      {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute"
           initial={{
-            x: pos.x,
-            y: pos.y,
-            scale: pos.scale,
+            x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+            scale: Math.random() * 0.5 + 0.5,
           }}
           animate={{
             x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
@@ -426,7 +367,7 @@ export default function EdgeAnimateTech() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "services", "portfolio", "testimonials", "pricing", "faq", "contact"]
+      const sections = ["home", "about", "services", "portfolio", "pricing", "faq", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -516,8 +457,7 @@ export default function EdgeAnimateTech() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-x-hidden transition-colors duration-300">
-      <LogoLoader />
+    <div className="min-h-screen bg-white relative overflow-x-hidden">
       {/* Cursor follower - hidden on mobile */}
       <motion.div
         className="fixed top-0 left-0 w-6 h-6 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full pointer-events-none z-50 mix-blend-difference hidden lg:block"
@@ -536,7 +476,7 @@ export default function EdgeAnimateTech() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm"
+        className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200/50 shadow-sm"
       >
         <div className="container mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
           <motion.div
@@ -548,14 +488,14 @@ export default function EdgeAnimateTech() {
               <Image src="/images/logo.png" alt="EdgeAnimate Tech Logo" fill className="object-contain" />
             </div>
             <div className="hidden sm:block">
-              <span className="text-gray-900 dark:text-white font-bold text-lg sm:text-xl">EdgeAnimate</span>
+              <span className="text-gray-900 font-bold text-lg sm:text-xl">EdgeAnimate</span>
               <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text font-bold text-lg sm:text-xl">
                 {" "}
                 Tech
               </span>
             </div>
             <div className="block sm:hidden">
-              <span className="text-gray-900 dark:text-white font-bold text-sm">EA</span>
+              <span className="text-gray-900 font-bold text-sm">EA</span>
               <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text font-bold text-sm">
                 T
               </span>
@@ -564,12 +504,12 @@ export default function EdgeAnimateTech() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {["home", "about", "services", "portfolio", "testimonials", "pricing", "faq", "contact"].map((item) => (
+            {["home", "about", "services", "portfolio", "pricing", "faq", "contact"].map((item) => (
               <motion.button
                 key={item}
                 onClick={() => scrollToSection(item)}
                 className={`text-sm font-medium transition-colors relative ${
-                  activeSection === item ? "text-orange-500" : "text-gray-700 dark:text-gray-200 hover:text-orange-500"
+                  activeSection === item ? "text-orange-500" : "text-gray-700 hover:text-orange-500"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -583,14 +523,13 @@ export default function EdgeAnimateTech() {
                 )}
               </motion.button>
             ))}
-            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden text-gray-700 dark:text-gray-200 p-2"
+            className="lg:hidden text-gray-700 p-2"
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </motion.button>
@@ -603,22 +542,19 @@ export default function EdgeAnimateTech() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50"
+              className="lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/50"
             >
               <div className="container mx-auto px-4 py-4 space-y-3">
-                {["home", "about", "services", "portfolio", "testimonials", "pricing", "faq", "contact"].map((item) => (
+                {["home", "about", "services", "portfolio", "pricing", "faq", "contact"].map((item) => (
                   <motion.button
                     key={item}
                     onClick={() => scrollToSection(item)}
-                    className="block w-full text-left text-gray-700 dark:text-gray-200 hover:text-orange-500 transition-colors py-2"
+                    className="block w-full text-left text-gray-700 hover:text-orange-500 transition-colors py-2"
                     whileHover={{ x: 10 }}
                   >
                     {item.charAt(0).toUpperCase() + item.slice(1)}
                   </motion.button>
                 ))}
-                <div className="pt-2">
-                  <ThemeToggle />
-                </div>
               </div>
             </motion.div>
           )}
@@ -633,7 +569,7 @@ export default function EdgeAnimateTech() {
         <FloatingElements />
         <motion.div
           style={{ y: backgroundY }}
-          className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-orange-50/50 dark:from-blue-950/50 dark:via-purple-950/30 dark:to-orange-950/50"
+          className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-orange-50/50"
         />
 
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -655,7 +591,7 @@ export default function EdgeAnimateTech() {
             </motion.div>
 
             <motion.h1
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight px-2"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
@@ -671,7 +607,7 @@ export default function EdgeAnimateTech() {
             </motion.h1>
 
             <motion.p
-              className="text-base sm:text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4"
+              className="text-base sm:text-xl md:text-2xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.6 }}
@@ -696,7 +632,7 @@ export default function EdgeAnimateTech() {
               <Button
                 onClick={() => scrollToSection("contact")}
                 variant="outline"
-                className="border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-300 transform hover:scale-105"
               >
                 Start Your Project
               </Button>
@@ -720,7 +656,7 @@ export default function EdgeAnimateTech() {
                     <AnimatedCounter end={stat.number} />
                     {stat.suffix}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">{stat.label}</div>
+                  <div className="text-xs sm:text-sm text-gray-600 mt-1">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -733,7 +669,7 @@ export default function EdgeAnimateTech() {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
         >
-          <ChevronDown className="text-gray-400 dark:text-gray-600 h-6 w-6 sm:h-8 sm:w-8" />
+          <ChevronDown className="text-gray-400 h-6 w-6 sm:h-8 sm:w-8" />
         </motion.div>
       </section>
 
@@ -747,21 +683,21 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-blue-100 text-blue-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               About EdgeAnimate Tech
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 px-2">
               Pioneering the Future of{" "}
               <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text">
                 Web Development
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
               At EdgeAnimate Tech, we're not just developers – we're digital architects who craft immersive web
               experiences. Our passion lies in combining cutting-edge technology with stunning animations to create
               websites that don't just function, they fascinate.
             </p>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
               From startups to enterprises, we've helped businesses across Kenya and beyond establish powerful online
               presences that drive growth, engage audiences, and deliver measurable results.
             </p>
@@ -805,12 +741,8 @@ export default function EdgeAnimateTech() {
                 >
                   <item.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                  {item.title}
-                </h3>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {item.description}
-                </p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">{item.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -818,7 +750,7 @@ export default function EdgeAnimateTech() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative">
+      <section id="services" className="py-12 sm:py-20 bg-gray-50 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -827,16 +759,16 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-purple-100 text-purple-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               Our Services
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
               Comprehensive{" "}
               <span className="text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                 Digital Solutions
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               From concept to launch, we provide end-to-end web development services that transform your digital
               presence
             </p>
@@ -853,27 +785,20 @@ export default function EdgeAnimateTech() {
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group"
               >
-                <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 h-full shadow-sm hover:shadow-lg">
+                <Card className="bg-white border-gray-200 hover:border-gray-300 transition-all duration-300 h-full shadow-sm hover:shadow-lg">
                   <CardHeader className="text-center pb-4">
                     <div
                       className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-2xl bg-gradient-to-r ${service.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                     >
                       <service.icon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                     </div>
-                    <CardTitle className="text-gray-900 dark:text-white text-lg sm:text-xl mb-2">
-                      {service.title}
-                    </CardTitle>
+                    <CardTitle className="text-gray-900 text-lg sm:text-xl mb-2">{service.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-4">
-                      {service.description}
-                    </p>
+                    <p className="text-sm sm:text-base text-gray-600 text-center mb-4">{service.description}</p>
                     <ul className="space-y-2">
                       {service.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400"
-                        >
+                        <li key={featureIndex} className="flex items-center text-xs sm:text-sm text-gray-600">
                           <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 flex-shrink-0" />
                           {feature}
                         </li>
@@ -897,16 +822,16 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-orange-100 text-orange-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               Our Portfolio
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
               Featured{" "}
               <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text">
                 Projects
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               Discover how we've helped businesses across various industries establish powerful online presences
             </p>
           </motion.div>
@@ -922,7 +847,7 @@ export default function EdgeAnimateTech() {
                 whileHover={{ y: -10 }}
                 className="group"
               >
-                <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-xl">
+                <Card className="bg-white border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-xl">
                   <div className="relative h-48 sm:h-64 overflow-hidden">
                     <Image
                       src={item.image || "/placeholder.svg"}
@@ -938,10 +863,7 @@ export default function EdgeAnimateTech() {
                       className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <Button
-                        asChild
-                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm"
-                      >
+                      <Button asChild className="bg-white text-gray-900 hover:bg-gray-100 text-sm">
                         <a href={item.url} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                           Visit Site
@@ -950,12 +872,10 @@ export default function EdgeAnimateTech() {
                     </motion.div>
                   </div>
                   <CardHeader className="p-4 sm:p-6">
-                    <CardTitle className="text-gray-900 dark:text-white text-lg sm:text-xl group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-pink-500 group-hover:bg-clip-text transition-all duration-300">
+                    <CardTitle className="text-gray-900 text-lg sm:text-xl group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:to-pink-500 group-hover:bg-clip-text transition-all duration-300">
                       {item.title}
                     </CardTitle>
-                    <CardDescription className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                      {item.description}
-                    </CardDescription>
+                    <CardDescription className="text-sm sm:text-base text-gray-600">{item.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="p-4 sm:p-6 pt-0">
                     <div className="flex flex-wrap gap-1 sm:gap-2">
@@ -989,91 +909,8 @@ export default function EdgeAnimateTech() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-12 sm:mb-16"
-          >
-            <Badge className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
-              Client Testimonials
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
-              What Our{" "}
-              <span className="text-transparent bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text">
-                Clients Say
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-              Don't just take our word for it. Here's what our satisfied clients have to say about working with
-              EdgeAnimate Tech.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group"
-              >
-                <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 h-full shadow-sm hover:shadow-lg">
-                  <CardHeader className="text-center pb-4">
-                    <div className="relative w-16 h-16 mx-auto mb-4">
-                      <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${testimonial.gradient} p-0.5`}>
-                        <div className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center">
-                          <span className="text-2xl font-bold text-gray-700 dark:text-gray-300">
-                            {testimonial.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-center mb-3">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.1 + i * 0.1 }}
-                          viewport={{ once: true }}
-                        >
-                          <svg className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
-                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                          </svg>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <blockquote className="text-sm sm:text-base text-gray-600 dark:text-gray-400 text-center mb-4 italic leading-relaxed">
-                      "{testimonial.content}"
-                    </blockquote>
-                    <div className="text-center">
-                      <h4 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</p>
-                      <p className="text-xs text-gray-400 dark:text-gray-500">{testimonial.company}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative">
+      <section id="pricing" className="py-12 sm:py-20 bg-gray-50 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -1082,16 +919,16 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-green-100 text-green-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               Transparent Pricing
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
               Affordable{" "}
               <span className="text-transparent bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text">
                 Excellence
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               Choose the perfect package for your project. All plans include responsive design, SEO optimization, and
               ongoing support.
             </p>
@@ -1117,7 +954,7 @@ export default function EdgeAnimateTech() {
                 )}
 
                 <Card
-                  className={`bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 h-full shadow-sm hover:shadow-lg ${
+                  className={`bg-white border-gray-200 hover:border-gray-300 transition-all duration-300 h-full shadow-sm hover:shadow-lg ${
                     plan.popular ? "ring-2 ring-orange-500/20 shadow-lg" : ""
                   }`}
                 >
@@ -1127,20 +964,18 @@ export default function EdgeAnimateTech() {
                     >
                       <span className="text-white font-bold text-sm sm:text-xl">{plan.currency}</span>
                     </div>
-                    <CardTitle className="text-gray-900 dark:text-white text-lg sm:text-xl mb-2">{plan.name}</CardTitle>
-                    <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    <CardTitle className="text-gray-900 text-lg sm:text-xl mb-2">{plan.name}</CardTitle>
+                    <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                       {plan.currency} {plan.price}
                     </div>
-                    <CardDescription className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                      {plan.description}
-                    </CardDescription>
+                    <CardDescription className="text-xs sm:text-sm text-gray-600">{plan.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col p-4 sm:p-6 pt-0">
                     <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 flex-1">
                       {plan.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start space-x-2">
                           <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">{feature}</span>
+                          <span className="text-gray-700 text-xs sm:text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -1168,16 +1003,16 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-indigo-100 text-indigo-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               FAQ
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
               Frequently Asked{" "}
               <span className="text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text">
                 Questions
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               Get answers to common questions about our services and process
             </p>
           </motion.div>
@@ -1199,7 +1034,7 @@ export default function EdgeAnimateTech() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative">
+      <section id="contact" className="py-12 sm:py-20 bg-gray-50 relative">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -1208,16 +1043,16 @@ export default function EdgeAnimateTech() {
             viewport={{ once: true }}
             className="text-center mb-12 sm:mb-16"
           >
-            <Badge className="bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
+            <Badge className="bg-pink-100 text-pink-700 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
               Get In Touch
             </Badge>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
               Ready to{" "}
               <span className="text-transparent bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text">
                 Get Started?
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
               Let's discuss your project and bring your vision to life. We're here to help you succeed online.
             </p>
           </motion.div>
@@ -1230,10 +1065,10 @@ export default function EdgeAnimateTech() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow-lg">
+              <Card className="bg-white border-gray-200 shadow-lg">
                 <CardHeader className="p-4 sm:p-6">
-                  <CardTitle className="text-gray-900 dark:text-white text-xl sm:text-2xl">Send us a message</CardTitle>
-                  <CardDescription className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  <CardTitle className="text-gray-900 text-xl sm:text-2xl">Send us a message</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-gray-600">
                     Fill out the form below and we'll get back to you within 24 hours
                   </CardDescription>
                 </CardHeader>
@@ -1245,7 +1080,7 @@ export default function EdgeAnimateTech() {
                           placeholder="Your Name"
                           value={formData.name}
                           onChange={(e) => handleInputChange("name", e.target.value)}
-                          className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
+                          className={`border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${
                             formErrors.name ? "border-red-500" : ""
                           }`}
                         />
@@ -1262,7 +1097,7 @@ export default function EdgeAnimateTech() {
                           type="email"
                           value={formData.email}
                           onChange={(e) => handleInputChange("email", e.target.value)}
-                          className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
+                          className={`border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${
                             formErrors.email ? "border-red-500" : ""
                           }`}
                         />
@@ -1279,7 +1114,7 @@ export default function EdgeAnimateTech() {
                         placeholder="Subject"
                         value={formData.subject}
                         onChange={(e) => handleInputChange("subject", e.target.value)}
-                        className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
+                        className={`border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${
                           formErrors.subject ? "border-red-500" : ""
                         }`}
                       />
@@ -1296,7 +1131,7 @@ export default function EdgeAnimateTech() {
                         rows={5}
                         value={formData.message}
                         onChange={(e) => handleInputChange("message", e.target.value)}
-                        className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
+                        className={`border-gray-300 focus:border-orange-500 focus:ring-orange-500 ${
                           formErrors.message ? "border-red-500" : ""
                         }`}
                       />
@@ -1358,19 +1193,17 @@ export default function EdgeAnimateTech() {
               className="space-y-6 sm:space-y-8"
             >
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-                  Let's Connect
-                </h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Let's Connect</h3>
                 <div className="space-y-4 sm:space-y-6">
                   <motion.div className="flex items-center space-x-3 sm:space-x-4" whileHover={{ x: 10 }}>
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                       <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
                     <div>
-                      <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Phone</p>
+                      <p className="text-gray-900 font-semibold text-sm sm:text-base">Phone</p>
                       <a
                         href="tel:+254115588218"
-                        className="text-gray-600 dark:text-gray-400 hover:text-orange-500 transition-colors text-sm sm:text-base"
+                        className="text-gray-600 hover:text-orange-500 transition-colors text-sm sm:text-base"
                       >
                         +254 115 588 218
                       </a>
@@ -1382,10 +1215,10 @@ export default function EdgeAnimateTech() {
                       <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
                     <div>
-                      <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Email</p>
+                      <p className="text-gray-900 font-semibold text-sm sm:text-base">Email</p>
                       <a
                         href="mailto:edgeanimatetech@gmail.com"
-                        className="text-gray-600 dark:text-gray-400 hover:text-orange-500 transition-colors text-sm sm:text-base"
+                        className="text-gray-600 hover:text-orange-500 transition-colors text-sm sm:text-base"
                       >
                         edgeanimatetech@gmail.com
                       </a>
@@ -1397,17 +1230,15 @@ export default function EdgeAnimateTech() {
                       <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
                     <div>
-                      <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Location</p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Nairobi, Kenya</p>
+                      <p className="text-gray-900 font-semibold text-sm sm:text-base">Location</p>
+                      <p className="text-gray-600 text-sm sm:text-base">Nairobi, Kenya</p>
                     </div>
                   </motion.div>
                 </div>
               </div>
 
               <div>
-                <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                  Follow Our Journey
-                </h4>
+                <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Follow Our Journey</h4>
                 <div className="flex space-x-3 sm:space-x-4">
                   {[
                     { icon: Facebook, href: "#", color: "from-blue-600 to-blue-700" },
@@ -1429,8 +1260,8 @@ export default function EdgeAnimateTech() {
               </div>
 
               <div className="bg-gradient-to-r from-orange-500/10 to-pink-500/10 p-4 sm:p-6 rounded-2xl border border-orange-200">
-                <h4 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2">Ready to Start?</h4>
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
+                <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-2">Ready to Start?</h4>
+                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
                   Book a free consultation call to discuss your project requirements and get a custom quote.
                 </p>
                 <Button
@@ -1447,7 +1278,7 @@ export default function EdgeAnimateTech() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-black text-white py-8 sm:py-12">
+      <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div>
@@ -1541,16 +1372,16 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 
   return (
     <motion.div
-      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+      className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
       whileHover={{ borderColor: "rgb(209 213 219)" }}
     >
       <motion.button
-        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+        className="w-full px-4 sm:px-6 py-3 sm:py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-gray-900 dark:text-white font-semibold pr-4 text-sm sm:text-base">{question}</span>
+        <span className="text-gray-900 font-semibold pr-4 text-sm sm:text-base">{question}</span>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="flex-shrink-0">
-          <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 dark:text-gray-400" />
+          <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
         </motion.div>
       </motion.button>
 
@@ -1563,10 +1394,8 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-4 sm:px-6 pb-3 sm:pb-4 border-t border-gray-100 dark:border-gray-700">
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed pt-3 sm:pt-4 text-sm sm:text-base">
-                {answer}
-              </p>
+            <div className="px-4 sm:px-6 pb-3 sm:pb-4 border-t border-gray-100">
+              <p className="text-gray-600 leading-relaxed pt-3 sm:pt-4 text-sm sm:text-base">{answer}</p>
             </div>
           </motion.div>
         )}
