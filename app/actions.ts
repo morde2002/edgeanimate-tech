@@ -13,12 +13,15 @@ export async function submitContactForm(data: ContactFormData) {
   try {
     // Create transporter using Gmail SMTP
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER || "edgeanimatetech@gmail.com",
-        pass: process.env.EMAIL_PASSWORD || "Edgeanimatetech2025.",
-      },
-    })
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // use TLS
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
 
     // Email content
     const mailOptions = {
