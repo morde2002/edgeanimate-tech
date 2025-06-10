@@ -25,7 +25,11 @@ export async function submitContactForm(data: ContactFormData) {
 
     // Email content
     const mailOptions = {
-      from: process.env.EMAIL_USER || "edgeanimatetech@gmail.com",
+      from: `"${data.name}" <${data.email}>`,
+      envelope: {
+        from: process.env.EMAIL_USER,
+        to: "edgeanimatetech@gmail.com",
+      },
       to: "edgeanimatetech@gmail.com",
       subject: `New Contact Form Submission: ${data.subject}`,
       html: `
