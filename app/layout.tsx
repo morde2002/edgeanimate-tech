@@ -10,7 +10,17 @@ export const metadata: Metadata = {
   title: "EaseAnimateUX - Where Innovation Meets Animation",
   description:
     "Transform your ideas into stunning, animated web experiences that captivate users and drive business growth.",
-}
+  icons: {
+    icon: "/images/favicon.ico",            // standard favicon
+    shortcut: "/images/favicon.ico",        // <link rel="shortcut icon">
+    apple: "/images/apple-touch-icon.png",  // if you have an apple-touch-icon
+    // You can also specify others, e.g.:
+    // other: [
+    //   { rel: "icon", url: "/favicon-32x32.png", sizes: "32x32" },
+    //   { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16" },
+    // ],
+  },
+};
 
 export default function RootLayout({
   children,
