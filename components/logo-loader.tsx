@@ -11,19 +11,16 @@ export function LogoLoader() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
+    }, 3000) // Show loader for 3 seconds
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setParticlePositions(
-        Array.from({ length: 12 }).map(() => ({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-        }))
-      )
-    }
+    // Only run on client
+    const positions = Array.from({ length: 12 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+    }))
+    setParticlePositions(positions)
+
+    return () => clearTimeout(timer)
   }, [])
 
   return (
@@ -60,8 +57,8 @@ export function LogoLoader() {
                 scale: 0,
               }}
               animate={{
-                x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1200),
-                y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
+                x: pos.x,
+                y: pos.y,
                 scale: [0, 1, 0],
                 rotate: 360,
               }}
@@ -74,7 +71,117 @@ export function LogoLoader() {
             />
           ))}
 
-          {/* ...rest of your code... */}
+          <div className="relative z-10 flex flex-col items-center">
+            {/* Logo container with pulse effect */}
+            <motion.div
+              className="relative mb-8"
+              animate={{
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
+            >
+              {/* Outer pulse ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-500 to-pink-500"
+                animate={{
+                  scale: [1, 2, 1],
+                  opacity: [0.3, 0, 0.3],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                }}
+                style={{ width: "120px", height: "120px", left: "-10px", top: "-10px" }}
+              />
+
+              {/* Middle pulse ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.4, 0, 0.4],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                  delay: 0.3,
+                }}
+                style={{ width: "100px", height: "100px" }}
+              />
+
+              {/* Logo */}
+              <motion.div
+                className="relative w-32 h-32 flex items-center justify-center"
+                animate={{
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+              >
+                <Image
+                  src="/images/logo.png"
+                  alt="EaseAnimateUX Logo"
+                  width={80}
+                  height={80}
+                  className="object-contain"
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Animated text */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <motion.h1
+                className="text-4xl font-bold mb-4 text-transparent bg-gradient-to-r from-orange-500 via-purple-500 to-pink-500 bg-clip-text"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+              >
+                EaseAnimateUX
+              </motion.h1>
+
+              {/* Loading dots */}
+              <div className="flex justify-center space-x-2">
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-pink-500"
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.5, 1, 0.5],
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Number.POSITIVE_INFINITY,
+                      delay: i * 0.2,
+                    }}
+                  />
+                ))}
+              </div>
+
+              <motion.p
+                className="text-gray-600 dark:text-gray-400 mt-4 text-lg"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+              >
+                Crafting Digital Excellence...
+              </motion.p>
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

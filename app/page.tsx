@@ -212,7 +212,7 @@ const pricingPlans = [
 
 const faqs = [
   {
-    question: "What makes EdgeAnimate Tech different from other web agencies?",
+    question: "What makes EaseAnimateUX different from other web agencies?",
     answer:
       "We specialize in creating animated, interactive websites that stand out. Our focus on modern technologies like React, Next.js, and advanced animations sets us apart. We don't just build websites - we create digital experiences that engage users and drive results.",
   },
@@ -245,7 +245,7 @@ const testimonials = [
     company: "Hisia Youth Organization",
     image: "/images/testimonial-sarah.png",
     content:
-      "EdgeAnimate Tech transformed our vision into reality! The website they created for Hisia Youth Organization perfectly captures our mission of youth empowerment. The animations and user experience are exceptional, and we've seen a 300% increase in online engagement since launch.",
+      "EaseAnimateUX transformed our vision into reality! The website they created for Hisia Youth Organization perfectly captures our mission of youth empowerment. The animations and user experience are exceptional, and we've seen a 300% increase in online engagement since launch.",
     rating: 5,
     gradient: "from-red-500 to-pink-500",
   },
@@ -255,7 +255,7 @@ const testimonials = [
     company: "Baraka Mining & Minerals",
     image: "/images/testimonial-james.png",
     content:
-      "Professional, reliable, and innovative! EdgeAnimate Tech delivered a corporate website that truly represents our mining expertise. The clean design and smooth animations have impressed our international clients and helped us secure new partnerships.",
+      "Professional, reliable, and innovative! EaseAnimateUX delivered a corporate website that truly represents our mining expertise. The clean design and smooth animations have impressed our international clients and helped us secure new partnerships.",
     rating: 5,
     gradient: "from-green-500 to-emerald-500",
   },
@@ -265,19 +265,9 @@ const testimonials = [
     company: "Freelance Developer",
     image: "/images/testimonial-mordecai.png",
     content:
-      "Working with EdgeAnimate Tech on my portfolio website was an amazing experience. They understood my vision as a developer and created a site that perfectly showcases my skills. The attention to detail and modern design approach is outstanding!",
+      "Working with EaseAnimateUX on my portfolio website was an amazing experience. They understood my vision as a developer and created a site that perfectly showcases my skills. The attention to detail and modern design approach is outstanding!",
     rating: 5,
     gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    name: "David Mukasa",
-    role: "Operations Manager, Texol Energies",
-    company: "Texol Energies Uganda",
-    image: "/images/testimonial-david.png",
-    content:
-      "EdgeAnimate Tech delivered beyond our expectations! Our energy company website now stands out in the industry with its professional design and smooth functionality. The team's expertise in web development is truly remarkable.",
-    rating: 5,
-    gradient: "from-orange-500 to-red-500",
   },
 ]
 
@@ -380,7 +370,7 @@ const BackToTopButton = () => {
   )
 }
 
-export default function EdgeAnimateTech() {
+export default function EaseAnimateUX() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [formData, setFormData] = useState({
@@ -524,28 +514,29 @@ export default function EdgeAnimateTech() {
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm"
       >
-        <div className="container mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-between">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-2 sm:space-x-3 cursor-pointer"
+            className="flex items-center cursor-pointer"
             onClick={() => scrollToSection("home")}
           >
-            <div className="relative w-8 h-8 sm:w-12 sm:h-12">
-              <Image src="/images/logo.png" alt="EdgeAnimate Tech Logo" fill className="object-contain" />
+            <div className="relative w-100 h-100 sm:w-40 sm:h-20">
+              <Image
+                src="/images/logo.png"
+                alt="EaseMotionUX Logo Light"
+                width={140}
+                height={140}
+                className="block dark:hidden object-contain"
+              />
+              <Image
+                src="/images/logo2.png"
+                alt="EaseMotionUX Logo Dark"
+                width={140}
+                height={140}
+                className="hidden dark:block object-contain"
+              />
             </div>
-            <div className="hidden sm:block">
-              <span className="text-gray-900 dark:text-white font-bold text-lg sm:text-xl">EdgeAnimate</span>
-              <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text font-bold text-lg sm:text-xl">
-                {" "}
-                Tech
-              </span>
-            </div>
-            <div className="block sm:hidden">
-              <span className="text-gray-900 dark:text-white font-bold text-sm">EA</span>
-              <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text font-bold text-sm">
-                T
-              </span>
-            </div>
+            {/* Logo text removed since it's already in the logo image */}
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -591,7 +582,7 @@ export default function EdgeAnimateTech() {
               exit={{ opacity: 0, height: 0 }}
               className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50"
             >
-              <div className="container mx-auto px-4 py-4 space-y-3">
+              <div className="container mx-auto px-4 py-2 space-y-2">
                 {["home", "about", "services", "portfolio", "testimonials", "pricing", "faq", "contact"].map((item) => (
                   <motion.button
                     key={item}
@@ -734,7 +725,7 @@ export default function EdgeAnimateTech() {
             className="max-w-4xl mx-auto text-center mb-12 sm:mb-16"
           >
             <Badge className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
-              About EdgeAnimate Tech
+              About EaseAnimateUX
             </Badge>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8 px-2">
               Pioneering the Future of{" "}
@@ -743,7 +734,7 @@ export default function EdgeAnimateTech() {
               </span>
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 leading-relaxed">
-              At EdgeAnimate Tech, we're not just developers – we're digital architects who craft immersive web
+              At EaseAnimateUX, we're not just developers – we're digital architects who craft immersive web
               experiences. Our passion lies in combining cutting-edge technology with stunning animations to create
               websites that don't just function, they fascinate.
             </p>
@@ -996,7 +987,7 @@ export default function EdgeAnimateTech() {
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
               Don't just take our word for it. Here's what our satisfied clients have to say about working with
-              EdgeAnimate Tech.
+              EaseAnimateUX.
             </p>
           </motion.div>
 
@@ -1355,10 +1346,10 @@ export default function EdgeAnimateTech() {
                     <div>
                       <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Phone</p>
                       <a
-                        href="tel:+254115588218"
+                        href="tel:0707240014"
                         className="text-gray-600 dark:text-gray-400 hover:text-orange-500 transition-colors text-sm sm:text-base"
                       >
-                        +254 115 588 218
+                        0707240014
                       </a>
                     </div>
                   </motion.div>
@@ -1370,10 +1361,10 @@ export default function EdgeAnimateTech() {
                     <div>
                       <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Email</p>
                       <a
-                        href="mailto:edgeanimatetech@gmail.com"
+                        href="mailto:easeanimateux@gmail.com"
                         className="text-gray-600 dark:text-gray-400 hover:text-orange-500 transition-colors text-sm sm:text-base"
                       >
-                        edgeanimatetech@gmail.com
+                        easeanimateux@gmail.com
                       </a>
                     </div>
                   </motion.div>
@@ -1421,7 +1412,7 @@ export default function EdgeAnimateTech() {
                 </p>
                 <Button
                   className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-sm sm:text-base"
-                  onClick={() => window.open("tel:+254115588218")}
+                  onClick={() => window.open("tel:0707240014")}
                 >
                   <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Call Now
@@ -1438,15 +1429,14 @@ export default function EdgeAnimateTech() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div>
               <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                <div className="relative w-8 h-8 sm:w-10 sm:h-10">
-                  <Image src="/images/logo.png" alt="EdgeAnimate Tech Logo" fill className="object-contain" />
-                </div>
-                <div>
-                  <span className="text-white font-bold text-base sm:text-lg">EdgeAnimate</span>
-                  <span className="text-transparent bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text font-bold text-base sm:text-lg">
-                    {" "}
-                    Tech
-                  </span>
+                <div className="relative w-100 h-100 sm:w-40 sm:h-20">
+                  <Image
+                    src="/images/logo2.png"
+                    alt="EaseMotionUX Logo Dark"
+                    width={140}
+                    height={140}
+                    className="object-contain"
+                  />
                 </div>
               </div>
               <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
@@ -1487,8 +1477,8 @@ export default function EdgeAnimateTech() {
               <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Contact Info</h4>
               <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-400">
                 <p>📍 Nairobi, Kenya</p>
-                <p>📞 +254 115 588 218</p>
-                <p>✉️ edgeanimatetech@gmail.com</p>
+                <p>📞 0707240014</p>
+                <p>✉️ easeanimateux@gmail.com</p>
               </div>
               <div className="flex space-x-2 sm:space-x-3 mt-3 sm:mt-4">
                 {[
@@ -1513,7 +1503,7 @@ export default function EdgeAnimateTech() {
 
           <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
             <p className="text-gray-400 text-xs sm:text-sm">
-              © {new Date().getFullYear()} EdgeAnimate Tech. All rights reserved. | Crafted with ❤️ in Kenya
+              © {new Date().getFullYear()} EaseAnimateUX. All rights reserved. | Crafted with ❤️ in Kenya
             </p>
           </div>
         </div>

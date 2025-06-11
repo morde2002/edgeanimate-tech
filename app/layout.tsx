@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "EdgeAnimate Tech - Where Innovation Meets Animation",
+  title: "EaseAnimateUX - Where Innovation Meets Animation",
   description:
     "Transform your ideas into stunning, animated web experiences that captivate users and drive business growth.",
 }
