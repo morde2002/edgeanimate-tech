@@ -108,7 +108,7 @@ const portfolioItems = [
     gradient: "from-green-500 to-emerald-500",
   },
   {
-    title: "Mordecai's Portfolio",
+    title: "John Kamau's Portfolio",
     description: "Personal portfolio website showcasing web design and development skills",
     image: "/images/portfolio-site.png",
     url: "https://morde2002.github.io/mordecaiportfolio.github.io",
