@@ -7,6 +7,8 @@ interface ContactFormData {
   email: string
   subject: string
   message: string
+  queryCategory?: string    // optional
+  queryOption?: string      // optional
 }
 
 export async function submitContactForm(data: ContactFormData) {
@@ -43,6 +45,16 @@ export async function submitContactForm(data: ContactFormData) {
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
         <p><strong>Subject:</strong> ${data.subject}</p>
+        ${
+          data.queryCategory
+            ? `<p><strong>Inquiry Type:</strong> ${data.queryCategory}</p>`
+            : ""
+        }
+        ${
+          data.queryOption
+            ? `<p><strong>Selected Option:</strong> ${data.queryOption}</p>`
+            : ""
+        }
       </div>
       
       <div style="background: #fff; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
