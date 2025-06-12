@@ -537,9 +537,10 @@ export default function EaseAnimateUX() {
       errors.email = "Please enter a valid email address"
     }
 
-    if (!formData.subject.trim()) {
-      errors.subject = "Subject is required"
-    }
+    if (!formData.queryCategory) errors.queryCategory = "Please select inquiry type.";
+    if (!formData.queryOption) errors.queryOption = "Please select an option.";
+    if (formData.queryOption === "Other" && !formData.customSubject.trim())
+      errors.customSubject = "Please specify your inquiry.";
 
     if (!formData.message.trim()) {
       errors.message = "Message is required"
