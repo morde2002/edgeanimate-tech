@@ -326,6 +326,43 @@ const testimonials = [
   },
 ]
 
+// You can place this in the same file or import from a config/data file
+const queryCategories = [
+  {
+    value: "pricing",
+    label: "Pricing Inquiry",
+    options: [
+      { value: "Starter", label: "Starter (Starting at Ksh 8,000+)" },
+      { value: "Growth", label: "Growth (Starting at Ksh 20,000+)" },
+      { value: "Advanced", label: "Advanced (Starting at Ksh 40,000+)" },
+      { value: "Enterprise", label: "Enterprise (Custom Quote)" },
+      { value: "Other", label: "Other (specify below)" },
+    ],
+  },
+  {
+    value: "design",
+    label: "Design Services Inquiry",
+    options: [
+      { value: "Animated UX Design", label: "Animated UX Design" },
+      { value: "Front-End Animation Implementation", label: "Front-End Animation Implementation" },
+      { value: "UX Audit & Animation Strategy", label: "UX Audit & Animation Strategy" },
+      { value: "Design Systems & Component Libraries", label: "Design Systems & Component Libraries" },
+      { value: "Performance & Accessibility for Motion", label: "Performance & Accessibility for Motion" },
+      { value: "Consulting & Workshops", label: "Consulting & Workshops" },
+      { value: "Other", label: "Other (specify below)" },
+    ],
+  },
+  {
+    value: "general",
+    label: "General Inquiry",
+    options: [
+      { value: "General Question", label: "General Question" },
+      { value: "Other", label: "Other (specify below)" },
+    ],
+  },
+];
+
+
 const FloatingElements = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -433,6 +470,9 @@ export default function EaseAnimateUX() {
     email: "",
     subject: "",
     message: "",
+    queryCategory: "",    
+    queryOption: "",      
+    customSubject: "",
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -533,7 +573,7 @@ export default function EaseAnimateUX() {
       if (result.success) {
         setSubmitStatus("success")
         setSubmitMessage("Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.")
-        setFormData({ name: "", email: "", subject: "", message: "" })
+        setFormData({ name: "", email: "", subject: "", message: "", queryCategory: "", queryOption: "", customSubject: "" })
       } else {
         setSubmitStatus("error")
         setSubmitMessage(result.error || "Something went wrong. Please try again.")
@@ -1304,14 +1344,13 @@ export default function EaseAnimateUX() {
                 <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Name */}
                       <div>
                         <Input
                           placeholder="Your Name"
                           value={formData.name}
                           onChange={(e) => handleInputChange("name", e.target.value)}
-                          className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
-                            formErrors.name ? "border-red-500" : ""
-                          }`}
+                          className={`${formErrors.name ? "border-red-500" : ""}`}
                         />
                         {formErrors.name && (
                           <p className="text-red-500 text-xs mt-1 flex items-center">
@@ -1320,15 +1359,14 @@ export default function EaseAnimateUX() {
                           </p>
                         )}
                       </div>
+                      {/* Email */}
                       <div>
                         <Input
                           placeholder="Your Email"
                           type="email"
                           value={formData.email}
                           onChange={(e) => handleInputChange("email", e.target.value)}
-                          className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
-                            formErrors.email ? "border-red-500" : ""
-                          }`}
+                          className={`${formErrors.email ? "border-red-500" : ""}`}
                         />
                         {formErrors.email && (
                           <p className="text-red-500 text-xs mt-1 flex items-center">
@@ -1338,31 +1376,138 @@ export default function EaseAnimateUX() {
                         )}
                       </div>
                     </div>
-                    <div>
-                      <Input
-                        placeholder="Subject"
-                        value={formData.subject}
-                        onChange={(e) => handleInputChange("subject", e.target.value)}
-                        className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
-                          formErrors.subject ? "border-red-500" : ""
-                        }`}
-                      />
-                      {formErrors.subject && (
-                        <p className="text-red-500 text-xs mt-1 flex items-center">
-                          <AlertCircle className="h-3 w-3 mr-1" />
-                          {formErrors.subject}
-                        </p>
+
+                    {/* Inquiry Type and Option */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Category Select */}
+                      <div>
+                        <label htmlFor="queryCategory" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Select Inquiry Type
+                        </label>
+                        <select
+                          id="queryCategory"
+                          name="queryCategory"
+                          value={formData.queryCategory}
+                          onChange={(e) => {
+                            const category = e.target.value;
+                            handleInputChange("queryCategory", category);
+                            handleInputChange("queryOption", "");
+                            handleInputChange("customSubject", "");
+                            handleInputChange("subject", "");
+                          }}
+                          className={`mt-1 block w-full px-3 py-2 border ${
+                            formErrors.queryCategory ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+                          } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+                        >
+                          <option value="" disabled>
+                            -- Select Inquiry Type --
+                          </option>
+                          {queryCategories.map((cat) => (
+                            <option key={cat.value} value={cat.value}>
+                              {cat.label}
+                            </option>
+                          ))}
+                        </select>
+                        {formErrors.queryCategory && (
+                          <p className="text-red-500 text-xs mt-1 flex items-center">
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            {formErrors.queryCategory}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Option Select */}
+                      {formData.queryCategory && (
+                        <div>
+                          <label htmlFor="queryOption" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {queryCategories.find((c) => c.value === formData.queryCategory)?.label}
+                          </label>
+                          <select
+                            id="queryOption"
+                            name="queryOption"
+                            value={formData.queryOption}
+                            onChange={(e) => {
+                              const option = e.target.value;
+                              handleInputChange("queryOption", option);
+                              if (option !== "Other") {
+                                handleInputChange("customSubject", "");
+                                handleInputChange("subject", option);
+                              } else {
+                                handleInputChange("subject", "");
+                              }
+                            }}
+                            className={`mt-1 block w-full px-3 py-2 border ${
+                              formErrors.queryOption ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+                            } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500`}
+                          >
+                            <option value="" disabled>
+                              -- Select an option --
+                            </option>
+                            {queryCategories
+                              .find((c) => c.value === formData.queryCategory)!
+                              .options.map((opt) => (
+                                <option key={opt.value} value={opt.value}>
+                                  {opt.label}
+                                </option>
+                            ))}
+                          </select>
+                          {formErrors.queryOption && (
+                            <p className="text-red-500 text-xs mt-1 flex items-center">
+                              <AlertCircle className="h-3 w-3 mr-1" />
+                              {formErrors.queryOption}
+                            </p>
+                          )}
+                        </div>
                       )}
                     </div>
+
+                    {/* Custom Subject */}
+                    {formData.queryOption === "Other" && (
+                      <div>
+                        <label htmlFor="customSubject" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Please specify your inquiry
+                        </label>
+                        <div className="mt-1 relative">
+                          <Input
+                            id="customSubject"
+                            name="customSubject"
+                            placeholder="Type your subject here"
+                            value={formData.customSubject}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              handleInputChange("customSubject", val);
+                              handleInputChange("subject", val);
+                            }}
+                            className={`${formErrors.customSubject ? "border-red-500" : ""}`}
+                          />
+                          {formData.customSubject && (
+                            <button
+                              type="button"
+                              onClick={() => handleInputChange("subject", formData.customSubject)}
+                              className="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                              aria-label="Confirm subject"
+                            >
+                              <ArrowRight className="h-5 w-5" />
+                            </button>
+                          )}
+                        </div>
+                        {formErrors.customSubject && (
+                          <p className="text-red-500 text-xs mt-1 flex items-center">
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            {formErrors.customSubject}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Message */}
                     <div>
                       <Textarea
                         placeholder="Tell us about your project..."
                         rows={5}
                         value={formData.message}
                         onChange={(e) => handleInputChange("message", e.target.value)}
-                        className={`border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 ${
-                          formErrors.message ? "border-red-500" : ""
-                        }`}
+                        className={`${formErrors.message ? "border-red-500" : ""}`}
                       />
                       {formErrors.message && (
                         <p className="text-red-500 text-xs mt-1 flex items-center">
@@ -1372,25 +1517,7 @@ export default function EaseAnimateUX() {
                       )}
                     </div>
 
-                    {submitStatus !== "idle" && (
-                      <Alert
-                        className={
-                          submitStatus === "success" ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50"
-                        }
-                      >
-                        <div className="flex items-center">
-                          {submitStatus === "success" ? (
-                            <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                          ) : (
-                            <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
-                          )}
-                          <AlertDescription className={submitStatus === "success" ? "text-green-700" : "text-red-700"}>
-                            {submitMessage}
-                          </AlertDescription>
-                        </div>
-                      </Alert>
-                    )}
-
+                    {/* Submit */}
                     <Button
                       type="submit"
                       disabled={isSubmitting}
@@ -1409,6 +1536,7 @@ export default function EaseAnimateUX() {
                       )}
                     </Button>
                   </form>
+
                 </CardContent>
               </Card>
             </motion.div>
