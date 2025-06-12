@@ -16,6 +16,10 @@ import {
   Globe,
   Smartphone,
   Zap,
+  Eye,
+  Layers,
+  BookOpen,
+  ShieldCheck,
   ArrowRight,
   Check,
   ChevronDown,
@@ -43,48 +47,96 @@ import { submitContactForm } from "./actions"
 import { LogoLoader } from "@/components/logo-loader"
 import { ThemeToggle } from "@/components/theme-toggle"
 
+interface PricingPlan {
+  name: string;
+  // startingAt: minimum price in Ksh; if null, fully custom
+  startingAt: number | null;
+  currency: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+  gradient: string;
+  quoteBased: boolean; // true if requires custom quote
+}
+
 const services = [
   {
-    icon: Code,
-    title: "Custom Web Development",
-    description: "Cutting-edge web applications built with modern frameworks like React, Next.js, and Node.js",
-    gradient: "from-blue-500 to-cyan-500",
-    features: ["React & Next.js", "Full-Stack Solutions", "API Integration", "Database Design"],
-  },
-  {
-    icon: Palette,
-    title: "UI/UX Design",
-    description: "Beautiful, intuitive designs that enhance user experience and drive conversions",
-    gradient: "from-purple-500 to-pink-500",
-    features: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile-First Design",
-    description: "Responsive designs that look perfect on every device, from mobile to desktop",
-    gradient: "from-orange-500 to-red-500",
-    features: ["Responsive Design", "Mobile Optimization", "Cross-Browser Testing", "Performance Tuning"],
-  },
-  {
     icon: Zap,
-    title: "Animation & Interactions",
-    description: "Engaging animations and micro-interactions that bring your website to life",
-    gradient: "from-green-500 to-emerald-500",
-    features: ["Framer Motion", "CSS Animations", "Scroll Triggers", "Interactive Elements"],
+    title: "Animated UX Design",
+    description:
+      "Craft micro-interactions and motion-driven interfaces that delight users and guide behavior.",
+    gradient: "from-green-400 to-teal-500",
+    features: [
+      "Micro-interaction Prototyping",
+      "Framer Motion & SVG Animations",
+      "Hover, Scroll & Click Triggers",
+      "Emotion-Driven Feedback",
+    ],
   },
   {
-    icon: Globe,
-    title: "E-commerce Solutions",
-    description: "Complete online stores with payment integration and inventory management",
-    gradient: "from-indigo-500 to-purple-500",
-    features: ["Shopping Cart", "Payment Gateway", "Inventory System", "Order Management"],
+    icon: Code,
+    title: "Front-End Animation Implementation",
+    description:
+      "Implement performant, maintainable animated UI in React/Next.js for a smooth user experience.",
+    gradient: "from-blue-500 to-cyan-500",
+    features: [
+      "Next.js Animation Integration",
+      "Reusable Animated Components",
+      "CSS & JS Animation Techniques",
+      "Performance & Bundle Optimization",
+    ],
   },
   {
-    icon: Rocket,
-    title: "Performance Optimization",
-    description: "Lightning-fast websites optimized for speed, SEO, and user experience",
+    icon: Eye,
+    title: "UX Audit & Animation Strategy",
+    description:
+      "Analyze existing interfaces to identify opportunities for motion enhancements and usability gains.",
+    gradient: "from-purple-500 to-pink-500",
+    features: [
+      "Motion Gap Analysis",
+      "Interactive Prototype Recommendations",
+      "User Flow & Engagement Insights",
+      "Roadmap for Animation Improvements",
+    ],
+  },
+  {
+    icon: Layers,
+    title: "Design Systems & Component Libraries",
+    description:
+      "Build scalable, animation-ready design systems and component libraries for consistent UX across projects.",
+    gradient: "from-indigo-500 to-violet-500",
+    features: [
+      "Theming & Tokenization",
+      "Animated Component Patterns",
+      "Documentation & Usage Guidelines",
+      "Cross-Project Consistency",
+    ],
+  },
+  {
+    icon: ShieldCheck,
+    title: "Performance & Accessibility for Motion",
+    description:
+      "Ensure animations enhance rather than hinder: optimized for speed, accessibility, and reduced-motion preferences.",
     gradient: "from-yellow-500 to-orange-500",
-    features: ["SEO Optimization", "Speed Enhancement", "Core Web Vitals", "Analytics Setup"],
+    features: [
+      "Core Web Vitals for Animated Pages",
+      "prefers-reduced-motion Support",
+      "Lazy-Loading & Code-Splitting",
+      "Accessibility Audits & Best Practices",
+    ],
+  },
+  {
+    icon: BookOpen,
+    title: "Consulting & Workshops",
+    description:
+      "Train teams or advise projects on best practices in motion design, tools, and animation-driven UX workflows.",
+    gradient: "from-red-400 to-pink-500",
+    features: [
+      "Hands-on Framer Motion Tutorials",
+      "Animation Workflow Guidance",
+      "Design-to-Code Motion Pipelines",
+      "Team Reviews & Feedback Sessions",
+    ],
   },
 ]
 
@@ -127,86 +179,75 @@ const portfolioItems = [
   },
 ]
 
-const pricingPlans = [
+// Tier definitions
+const pricingPlans: PricingPlan[] = [
   {
-    name: "Student Special",
-    price: "2,000 - 5,000",
+    name: "Starter",
+    startingAt: 8000, // Ksh
     currency: "Ksh",
-    description: "Perfect for students and personal projects",
+    description:
+      "Basic animated site or landing page with essential micro-interactions. Ideal for personal/MVP projects.",
     features: [
-      "Free consultation & planning",
-      "Custom responsive design",
-      "Up to 5 pages",
-      "Mobile optimization",
-      "Basic SEO setup",
-      "1 month support",
+      "Up to 3 pages or screens",
+      "Basic hover/scroll animations",
+      "Responsive design",
+      "Performance-optimized build",
+      "1-month complimentary support",
     ],
     popular: false,
     gradient: "from-blue-500 to-cyan-500",
+    quoteBased: true,
   },
   {
-    name: "Startup Launch",
-    price: "15,000",
+    name: "Growth",
+    startingAt: 20000,
     currency: "Ksh",
-    description: "Ideal for new businesses and startups",
+    description:
+      "Professional site with moderate animation complexity. Great for startups and small businesses.",
     features: [
-      "Professional design",
-      "5-7 responsive pages",
-      "Contact forms",
-      "SEO optimization",
-      "Social media integration",
-      "3 months support",
-    ],
-    popular: false,
-    gradient: "from-green-500 to-emerald-500",
-  },
-  {
-    name: "Business Pro",
-    price: "25,000",
-    currency: "Ksh",
-    description: "Complete solution for growing businesses",
-    features: [
-      "Custom design system",
-      "10-15 pages",
-      "Advanced animations",
-      "Blog/News section",
-      "Analytics integration",
-      "6 months support",
+      "Up to 7 pages or screens",
+      "Moderate micro-interactions (Framer Motion, SVG effects)",
+      "UX audit & animation recommendations",
+      "Responsive & accessible animations",
+      "2-month support included",
     ],
     popular: true,
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-green-500 to-emerald-500",
+    quoteBased: true,
   },
   {
-    name: "E-commerce Plus",
-    price: "45,000",
+    name: "Advanced",
+    startingAt: 40000,
     currency: "Ksh",
-    description: "Full-featured online store",
+    description:
+      "Rich animation experiences and custom components. Suitable for growth-stage businesses needing standout UX.",
     features: [
-      "Custom e-commerce design",
-      "Product catalog",
-      "Shopping cart & checkout",
-      "Payment integration",
-      "Inventory management",
-      "12 months support",
+      "Up to 15 pages/screens or complex single-page apps",
+      "Advanced scroll-triggered animations & transitions",
+      "Animated design system / component library",
+      "Performance & accessibility audit for motion",
+      "3-month support included; retainer options available",
     ],
     popular: false,
-    gradient: "from-orange-500 to-red-500",
+    gradient: "from-purple-500 to-pink-500",
+    quoteBased: true,
   },
   {
     name: "Enterprise",
-    price: "90,000",
+    startingAt: null,
     currency: "Ksh",
-    description: "Enterprise-level solution",
+    description:
+      "Large-scale, custom animated UX solutions, integrations, and long-term partnerships. Fully tailored to your needs.",
     features: [
-      "Unlimited pages",
-      "Advanced functionality",
-      "User portals",
-      "CRM integration",
-      "Custom development",
-      "Unlimited support",
+      "Unlimited pages/screens",
+      "Custom integrations (CMS, e-commerce, portals)",
+      "Enterprise-grade performance & security",
+      "Comprehensive animation strategy & testing",
+      "Dedicated support & maintenance retainer",
     ],
     popular: false,
-    gradient: "from-indigo-500 to-purple-500",
+    gradient: "from-indigo-500 to-violet-500",
+    quoteBased: true,
   },
 ]
 
@@ -235,6 +276,20 @@ const faqs = [
     question: "What technologies do you use for web development?",
     answer:
       "We use cutting-edge technologies including React, Next.js, Node.js, TypeScript, and modern CSS frameworks. For animations, we leverage Framer Motion and CSS3. We choose the best technology stack based on your specific project requirements.",
+  },
+  {
+    question: "Will animations slow down my site? How do you optimize?",
+    answer: `When done correctly, animations should enhance UX without compromising performance. We optimize animations by:
+    1. Hardware-accelerated transforms: Using CSS transforms (translate, scale, opacity) which leverage the GPU, avoiding layout-triggering properties.
+    2. Animating only what's needed: Limiting simultaneous animations, deferring off-screen or non-critical animations, and using Intersection Observer or Framer Motion’s whileInView so animations run only when elements enter the viewport.
+    3. Lazy-loading assets: Loading heavy assets (e.g., Lottie files, large SVGs) only when needed, and optimizing file sizes (minifying SVGs, compressing JSON).
+    4. Reduced-motion support: Respecting users’ prefers-reduced-motion setting—providing subtle alternatives or disabling non-essential animations for improved accessibility and performance.
+    5. Code-splitting & tree-shaking: In Next.js/React, we dynamically import animation libraries or components so the initial bundle remains small.
+    6. Efficient animation libraries: Using performant libraries like Framer Motion that batch frame updates and avoid unnecessary re-renders. For custom animations, we throttle or debounce expensive operations.
+    7. Performance budgets & monitoring: We keep an eye on Core Web Vitals (LCP, TBT) and test on real devices. Animations are tuned to maintain smooth frame rates (60fps) by minimizing JS overhead and avoiding long-running tasks.
+    8. Optimized rendering strategies: Avoiding heavy DOM manipulation during animations, minimizing repaint areas, and using will-change sparingly only on elements about to animate.
+
+    With these practices, your site remains fast and responsive while benefiting from engaging, motion-driven interactions.`,
   },
 ]
 
@@ -750,21 +805,21 @@ export default function EaseAnimateUX() {
                 icon: Target,
                 title: "Our Mission",
                 description:
-                  "To democratize exceptional web design by making cutting-edge, animated websites accessible to businesses of all sizes.",
+                  "Democratize animated UX by providing lightweight, performant motion design.",
                 gradient: "from-blue-500 to-cyan-500",
               },
               {
                 icon: Users,
                 title: "Our Approach",
                 description:
-                  "We believe in collaborative partnerships, working closely with clients to understand their vision and exceed expectations.",
+                  "We prototype micro-interactions in Figma/Framer Motion early, iterate based on user feedback.",
                 gradient: "from-purple-500 to-pink-500",
               },
               {
                 icon: Award,
                 title: "Our Promise",
                 description:
-                  "Every project receives our full attention, ensuring quality, performance, and results that make a lasting impact.",
+                  "We deliver animations without compromising load times or accessibility.",
                 gradient: "from-orange-500 to-red-500",
               },
             ].map((item, index) => (
@@ -1050,8 +1105,12 @@ export default function EaseAnimateUX() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative">
+      <section
+        id="pricing"
+        className="py-12 sm:py-20 bg-gray-50 dark:bg-gray-800 relative"
+      >
         <div className="container mx-auto px-4">
+          {/* Heading */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1060,53 +1119,74 @@ export default function EaseAnimateUX() {
             className="text-center mb-12 sm:mb-16"
           >
             <Badge className="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium mb-4">
-              Transparent Pricing
+              Transparent & Flexible Pricing
             </Badge>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 px-2">
-              Affordable{" "}
-              <span className="text-transparent bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text">
-                Excellence
-              </span>
+              Pricing Tailored to Your Needs
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-              Choose the perfect package for your project. All plans include responsive design, SEO optimization, and
-              ongoing support.
+              These tiers show approximate starting investments. Final quotes depend on your project scope,
+              complexity of animations, integrations, and desired support level. 
+              <br />
+              <strong>Contact us</strong> for a detailed proposal.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto">
-            {pricingPlans.map((plan, index) => (
+          {/* Grid of plans */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {pricingPlans.map((plan, idx) => (
               <motion.div
                 key={plan.name}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
+                transition={{ duration: 0.8, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10, scale: 1.02 }}
+                whileHover={{ y: -5, scale: 1.02 }}
                 className="relative group"
               >
                 {plan.popular && (
-                  <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
                     <Badge className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 py-1 shadow-lg text-xs">
                       Most Popular
                     </Badge>
                   </div>
                 )}
-
                 <Card
                   className={`bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 h-full shadow-sm hover:shadow-lg ${
                     plan.popular ? "ring-2 ring-orange-500/20 shadow-lg" : ""
                   }`}
                 >
                   <CardHeader className="text-center p-4 sm:p-6">
+                    {/* Icon circle: could show currency or an icon */}
                     <div
                       className={`w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-2xl bg-gradient-to-r ${plan.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                     >
-                      <span className="text-white font-bold text-sm sm:text-xl">{plan.currency}</span>
+                      {/* Optionally put an icon here */}
+                      {/* Example: <Zap className="text-white w-6 h-6" /> */}
+                      <span className="text-white font-bold text-sm sm:text-xl">
+                        {plan.startingAt !== null
+                          ? plan.currency
+                          : ""}
+                      </span>
                     </div>
-                    <CardTitle className="text-gray-900 dark:text-white text-lg sm:text-xl mb-2">{plan.name}</CardTitle>
+                    <CardTitle className="text-gray-900 dark:text-white text-lg sm:text-xl mb-2">
+                      {plan.name}
+                    </CardTitle>
                     <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                      {plan.currency} {plan.price}
+                      {plan.startingAt !== null ? (
+                        <>
+                          {plan.currency} {plan.startingAt.toLocaleString()}+
+                          <span className="text-base font-normal text-gray-500 dark:text-gray-400 block">
+                            {" "}
+                            {/* plus to indicate starting */}
+                            Starting at
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
+                          Custom Quote
+                        </span>
+                      )}
                     </div>
                     <CardDescription className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       {plan.description}
@@ -1114,18 +1194,24 @@ export default function EaseAnimateUX() {
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col p-4 sm:p-6 pt-0">
                     <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 flex-1">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start space-x-2">
+                      {plan.features.map((feature, fi) => (
+                        <li key={fi} className="flex items-start space-x-2">
                           <Check className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">{feature}</span>
+                          <span className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm">
+                            {feature}
+                          </span>
                         </li>
                       ))}
                     </ul>
                     <Button
                       className={`w-full bg-gradient-to-r ${plan.gradient} hover:opacity-90 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-sm`}
-                      onClick={() => scrollToSection("contact")}
+                      onClick={() => {
+                        // e.g., scroll to contact or open a quote modal with plan info
+                        scrollToSection("contact");
+                        // Optionally fill a hidden input: selectedPlan=plan.name
+                      }}
                     >
-                      Get Started
+                      Request Quote
                     </Button>
                   </CardContent>
                 </Card>
@@ -1134,6 +1220,7 @@ export default function EaseAnimateUX() {
           </div>
         </div>
       </section>
+
 
       {/* FAQ Section */}
       <section id="faq" className="py-12 sm:py-20 relative">
@@ -1346,10 +1433,10 @@ export default function EaseAnimateUX() {
                     <div>
                       <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Phone</p>
                       <a
-                        href="tel:0707240014"
+                        href="tel:+254707240014"
                         className="text-gray-600 dark:text-gray-400 hover:text-orange-500 transition-colors text-sm sm:text-base"
                       >
-                        0707240014
+                        +254 707 240 014
                       </a>
                     </div>
                   </motion.div>
@@ -1375,7 +1462,7 @@ export default function EaseAnimateUX() {
                     </div>
                     <div>
                       <p className="text-gray-900 dark:text-gray-300 font-semibold text-sm sm:text-base">Location</p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Nairobi, Kenya</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Remote, Kenya</p>
                     </div>
                   </motion.div>
                 </div>
@@ -1412,7 +1499,7 @@ export default function EaseAnimateUX() {
                 </p>
                 <Button
                   className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-sm sm:text-base"
-                  onClick={() => window.open("tel:0707240014")}
+                  onClick={() => window.open("tel:+254707240014")}
                 >
                   <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Call Now
@@ -1464,12 +1551,12 @@ export default function EaseAnimateUX() {
             <div>
               <h4 className="text-white font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Services</h4>
               <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-400">
-                <li>Custom Web Development</li>
-                <li>UI/UX Design</li>
-                <li>E-commerce Solutions</li>
-                <li>Mobile-First Design</li>
-                <li>Animation & Interactions</li>
-                <li>Performance Optimization</li>
+                <li>Animated UX Design</li>
+                <li>Front-End Animation Implementation</li>
+                <li>UX Audit & Animation Strategy</li>
+                <li>Design Systems & Component Libraries</li>
+                <li>Performance & Accessibility for Motion</li>
+                <li>Consulting & Workshops</li>
               </ul>
             </div>
 
