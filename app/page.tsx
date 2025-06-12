@@ -12,9 +12,6 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Code,
-  Palette,
-  Globe,
-  Smartphone,
   Zap,
   Eye,
   Layers,
@@ -34,7 +31,6 @@ import {
   Menu,
   X,
   ExternalLink,
-  Rocket,
   Target,
   Users,
   Award,
@@ -478,6 +474,8 @@ export default function EaseAnimateUX() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [submitMessage, setSubmitMessage] = useState("")
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
 
   const { scrollYProgress } = useScroll()
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
@@ -559,33 +557,50 @@ export default function EaseAnimateUX() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
+    e.preventDefault();
     if (!validateForm()) {
-      return
+      return;
     }
-
-    setIsSubmitting(true)
-    setSubmitStatus("idle")
-
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setSubmitMessage("");
+    // Clear any existing timeout before a new submission
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+      messageTimeoutRef.current = null;
+    }
     try {
-      const result = await submitContactForm(formData)
-
+      const result = await submitContactForm(formData);
       if (result.success) {
-        setSubmitStatus("success")
-        setSubmitMessage("Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.")
-        setFormData({ name: "", email: "", subject: "", message: "", queryCategory: "", queryOption: "", customSubject: "" })
+        setSubmitStatus("success");
+        setSubmitMessage("Thank you! Your message was sent. We'll get back to you as soon as possible.");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+          queryCategory: "",
+          queryOption: "",
+          customSubject: "",
+        });
       } else {
-        setSubmitStatus("error")
-        setSubmitMessage(result.error || "Something went wrong. Please try again.")
+        setSubmitStatus("error");
+        setSubmitMessage(result.error || "An unknown error occurred. Please try again later.");
       }
-    } catch (error) {
-      setSubmitStatus("error")
-      setSubmitMessage("Failed to send message. Please try again or contact us directly.")
+    } catch (err) {
+      setSubmitStatus("error");
+      setSubmitMessage("Failed to send message. Please try again later.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
+      // Schedule clearing the message after 10 seconds
+      messageTimeoutRef.current = setTimeout(() => {
+        setSubmitStatus("idle");
+        setSubmitMessage("");
+        messageTimeoutRef.current = null;
+      }, 10000);
     }
-  }
+  };
+
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 relative overflow-x-hidden transition-colors duration-300">
@@ -1536,6 +1551,8 @@ export default function EaseAnimateUX() {
                         </>
                       )}
                     </Button>
+                    {submitStatus === "success" && <p className="text-green-600">{submitMessage}</p>}
+                    {submitStatus === "error" && <p className="text-red-600">{submitMessage}</p>}
                   </form>
 
                 </CardContent>
